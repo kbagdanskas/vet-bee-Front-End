@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="container-bigger">
+        <div class="container-inside">
+          <div class="top-shelf">
+            <a href="dashboard.html">
+              <img src="./img/logo.svg" alt="VetBee" />
+            </a>
+
+            <span class="material-icons" id="nav-hamburger">reorder</span>
+          </div>
+
+          <nav>
+            <ul>
+              <li>
+                <a href="dashboard.html">Pets</a>
+              </li>
+              <li>
+                <a href="logs.html">Medications</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <form name="med">
+      <label for="name">Name</label> <br />
+      <input type="text" name="name" required />
+      <label for="desc">Desc</label> <br />
+      <input type="text" name="desc" required />
+      <label for="year">Year</label> <br />
+      <input type="number" name="year" required />
+
+      <button type="submit">Add</button>
+    </form>
+    <script>
+      const baseUrl = "http://localhost:8080";
+
+      document.forms.med.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = e.target.elements.name.value.trim();
+        const desc = e.target.elements.desc.value.trim();
+        const year = e.target.elements.year.value.trim();
+
+        fetch("http://localhost:8080/med", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            desc,
+            year,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert(data.msg || data.err);
+          });
+      });
+    </script>
+  </body>
+</html>
